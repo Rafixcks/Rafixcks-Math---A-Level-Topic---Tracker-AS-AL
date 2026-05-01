@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edexcel A-Level Maths — Topic Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f0f4ff;
+    --surface: #ffffff;
+    --surface2: #f7f9ff;
+    --border: #dde5f7;
+    --blue-primary: #2563eb;
+    --blue-light: #eff6ff;
+    --blue-mid: #bfdbfe;
+    --blue-dark: #1e40af;
+    --text: #0f172a;
+    --text-muted: #64748b;
+    --text-light: #94a3b8;
+    --green: #16a34a;
+    --green-bg: #f0fdf4;
+    --green-border: #bbf7d0;
+    --red: #dc2626;
+    --red-bg: #fef2f2;
+    --red-border: #fecaca;
+    --yellow: #d97706;
+    --yellow-bg: #fffbeb;
+    --yellow-border: #fde68a;
+    --shadow: 0 1px 3px rgba(37,99,235,0.08), 0 4px 16px rgba(37,99,235,0.06);
+    --shadow-lg: 0 8px 32px rgba(37,99,235,0.12);
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 32px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(37,99,235,0.07);
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 0;
+    flex-wrap: wrap;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--blue-primary), var(--blue-dark));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 16px; font-weight: 700;
+  }
+  .logo-text { font-size: 17px; font-weight: 600; color: var(--blue-dark); }
+  .logo-sub { font-size: 12px; color: var(--text-muted); font-weight: 400; }
+
+  .header-stats {
+    display: flex; gap: 12px; flex: 1; justify-content: center; flex-wrap: wrap;
+  }
+  .stat-pill {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    display: flex; align-items: center; gap: 6px;
+    color: var(--text-muted); font-weight: 500;
+  }
+  .stat-pill span { font-weight: 700; color: var(--text); }
+  .stat-pill.green span { color: var(--green); }
+  .stat-pill.red span { color: var(--red); }
+  .stat-pill.yellow span { color: var(--yellow); }
+  .stat-pill.blue span { color: var(--blue-primary); }
+
+  .header-actions { display: flex; gap: 8px; flex-shrink: 0; }
+  .btn {
+    padding: 8px 16px; border-radius: var(--radius-sm);
+    font-size: 13px; font-weight: 600; cursor: pointer;
+    border: none; transition: all 0.15s; font-family: inherit;
+  }
+  .btn-ghost {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+  .btn-ghost:hover { background: var(--surface2); color: var(--text); }
+  .btn-primary {
+    background: var(--blue-primary); color: white;
+  }
+  .btn-primary:hover { background: var(--blue-dark); }
+
+  /* ── Toolbar ── */
+  .toolbar {
+    max-width: 1100px;
+    margin: 24px auto 16px;
+    padding: 0 24px;
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+  }
+  .search-wrap {
+    flex: 1; min-width: 200px; position: relative;
+  }
+  .search-icon {
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    color: var(--text-light); font-size: 15px;
+  }
+  .search-input {
+    width: 100%; padding: 10px 12px 10px 36px;
+    border: 1px solid var(--border); border-radius: var(--radius-sm);
+    background: var(--surface); font-family: inherit; font-size: 14px;
+    color: var(--text); outline: none; transition: border 0.15s;
+  }
+  .search-input:focus { border-color: var(--blue-primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+
+  .filter-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .filter-btn {
+    padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 500;
+    cursor: pointer; border: 1px solid var(--border); background: var(--surface);
+    color: var(--text-muted); transition: all 0.15s; font-family: inherit;
+  }
+  .filter-btn:hover { border-color: var(--blue-primary); color: var(--blue-primary); }
+  .filter-btn.active { background: var(--blue-primary); border-color: var(--blue-primary); color: white; }
+  .filter-btn.active-green { background: var(--green); border-color: var(--green); color: white; }
+  .filter-btn.active-red { background: var(--red); border-color: var(--red); color: white; }
+  .filter-btn.active-yellow { background: var(--yellow); border-color: var(--yellow); color: white; }
+
+  /* ── Legend ── */
+  .legend-bar {
+    max-width: 1100px; margin: 0 auto 20px; padding: 0 24px;
+    display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+  }
+  .legend-label { font-size: 12px; color: var(--text-muted); font-weight: 500; margin-right: 4px; }
+  .legend-item {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 12px; font-weight: 500; padding: 4px 10px;
+    border-radius: 12px; cursor: pointer; border: 1px solid transparent; transition: all 0.15s;
+  }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .legend-item.easy { background: var(--green-bg); border-color: var(--green-border); color: var(--green); }
+  .legend-item.hard { background: var(--red-bg); border-color: var(--red-border); color: var(--red); }
+  .legend-item.review { background: var(--yellow-bg); border-color: var(--yellow-border); color: var(--yellow); }
+  .legend-item.none-item { background: var(--surface2); border-color: var(--border); color: var(--text-muted); }
+
+  /* ── Main Layout ── */
+  .main { max-width: 1100px; margin: 0 auto; padding: 0 24px 60px; }
+
+  /* ── Section ── */
+  .section { margin-bottom: 20px; }
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px; cursor: pointer;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); transition: all 0.15s;
+    user-select: none;
+  }
+  .section-header:hover { border-color: var(--blue-mid); box-shadow: var(--shadow); }
+  .section-header.open { border-radius: var(--radius) var(--radius) 0 0; border-bottom-color: transparent; }
+
+  .section-code {
+    background: var(--blue-primary); color: white;
+    font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 500;
+    padding: 3px 9px; border-radius: 6px; flex-shrink: 0;
+  }
+  .section-title { font-size: 15px; font-weight: 600; flex: 1; }
+  .section-meta { display: flex; gap: 8px; align-items: center; }
+  .section-count {
+    font-size: 12px; color: var(--text-muted);
+    background: var(--surface2); border: 1px solid var(--border);
+    padding: 2px 8px; border-radius: 10px; font-weight: 500;
+  }
+  .section-progress {
+    width: 80px; height: 5px; background: var(--border);
+    border-radius: 3px; overflow: hidden; flex-shrink: 0;
+  }
+  .section-progress-bar { height: 100%; background: var(--blue-primary); border-radius: 3px; transition: width 0.3s; }
+  .chevron {
+    color: var(--text-muted); font-size: 12px; transition: transform 0.2s; flex-shrink: 0;
+  }
+  .chevron.open { transform: rotate(180deg); }
+
+  .section-body {
+    background: var(--surface); border: 1px solid var(--border);
+    border-top: none; border-radius: 0 0 var(--radius) var(--radius);
+    overflow: hidden;
+  }
+
+  /* Subsection */
+  .subsection-header {
+    padding: 8px 18px 4px;
+    font-size: 11px; font-weight: 600; color: var(--blue-primary);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    background: var(--blue-light); border-bottom: 1px solid var(--blue-mid);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .subsection-badge {
+    background: var(--blue-primary); color: white;
+    font-size: 10px; padding: 1px 6px; border-radius: 8px; font-weight: 600;
+    text-transform: none; letter-spacing: 0;
+  }
+  .subsection-badge.as { background: #6366f1; }
+  .subsection-badge.alevel { background: #0891b2; }
+
+  /* Topic Row */
+  .topic-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 9px 18px; border-bottom: 1px solid var(--border);
+    transition: background 0.12s; cursor: default;
+  }
+  .topic-row:last-child { border-bottom: none; }
+  .topic-row:hover { background: var(--surface2); }
+
+  /* Highlighted states */
+  .topic-row.hl-easy { background: var(--green-bg) !important; }
+  .topic-row.hl-easy:hover { background: #dcfce7 !important; }
+  .topic-row.hl-hard { background: var(--red-bg) !important; }
+  .topic-row.hl-hard:hover { background: #fee2e2 !important; }
+  .topic-row.hl-review { background: var(--yellow-bg) !important; }
+  .topic-row.hl-review:hover { background: #fef3c7 !important; }
+
+  .topic-check {
+    width: 18px; height: 18px; flex-shrink: 0;
+    border: 2px solid var(--border); border-radius: 5px;
+    cursor: pointer; appearance: none; -webkit-appearance: none;
+    transition: all 0.15s; background: var(--surface); position: relative;
+  }
+  .topic-check:hover { border-color: var(--blue-primary); }
+  .topic-check:checked {
+    background: var(--blue-primary); border-color: var(--blue-primary);
+  }
+  .topic-check:checked::after {
+    content: '✓'; position: absolute; top: -1px; left: 2px;
+    color: white; font-size: 12px; font-weight: 700;
+  }
+
+  .topic-code {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--text-muted); min-width: 60px; flex-shrink: 0;
+  }
+  .topic-name { font-size: 13px; flex: 1; line-height: 1.4; }
+  .topic-name.checked { text-decoration: line-through; color: var(--text-light); }
+
+  .topic-tag {
+    font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 8px; flex-shrink: 0;
+  }
+  .topic-tag.as { background: #ede9fe; color: #6d28d9; }
+  .topic-tag.alevel { background: #e0f2fe; color: #0369a1; }
+
+  .hl-btn {
+    width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--border);
+    cursor: pointer; font-size: 11px; display: flex; align-items: center; justify-content: center;
+    background: transparent; transition: all 0.15s; flex-shrink: 0; color: var(--text-light);
+  }
+  .hl-btn:hover { transform: scale(1.1); }
+  .hl-btn.easy { background: var(--green-bg); border-color: var(--green-border); color: var(--green); }
+  .hl-btn.hard { background: var(--red-bg); border-color: var(--red-border); color: var(--red); }
+  .hl-btn.review { background: var(--yellow-bg); border-color: var(--yellow-border); color: var(--yellow); }
+
+  /* No results */
+  .no-results {
+    text-align: center; padding: 60px 20px; color: var(--text-muted);
+  }
+  .no-results .icon { font-size: 40px; margin-bottom: 12px; }
+  .no-results h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+
+  /* Progress bar at bottom */
+  .progress-footer {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--surface); border-top: 1px solid var(--border);
+    padding: 10px 32px; display: flex; align-items: center; gap: 16px;
+    box-shadow: 0 -4px 16px rgba(37,99,235,0.06);
+  }
+  .pf-label { font-size: 13px; font-weight: 600; color: var(--text); min-width: 160px; }
+  .pf-bar { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .pf-fill { height: 100%; background: linear-gradient(90deg, var(--blue-primary), #60a5fa); border-radius: 4px; transition: width 0.4s; }
+  .pf-pct { font-size: 14px; font-weight: 700; color: var(--blue-primary); min-width: 40px; text-align: right; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">M</div>
+      <div>
+        <div class="logo-text">Edexcel A-Level Maths</div>
+        <div class="logo-sub">9MA0 Topic Tracker</div>
+      </div>
+    </div>
+    <div class="header-stats" id="headerStats"></div>
+    <div class="header-actions">
+      <button class="btn btn-ghost" onclick="resetAll()">Reset All</button>
+      <button class="btn btn-primary" onclick="expandAll()">Expand All</button>
+    </div>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input class="search-input" type="text" placeholder="Search topics…" id="searchInput" oninput="applyFilters()">
+  </div>
+  <div class="filter-group" id="filterGroup">
+    <button class="filter-btn active" data-filter="all" onclick="setFilter('all', this)">All</button>
+    <button class="filter-btn" data-filter="as" onclick="setFilter('as', this)">⭐ AS Only</button>
+    <button class="filter-btn" data-filter="alevel" onclick="setFilter('alevel', this)">■ A-Level Only</button>
+    <button class="filter-btn" data-filter="unchecked" onclick="setFilter('unchecked', this)">Unchecked</button>
+    <button class="filter-btn" data-filter="checked" onclick="setFilter('checked', this)">✓ Done</button>
+  </div>
+  <div class="filter-group">
+    <button class="filter-btn" data-filter="easy" onclick="setHighlightFilter('easy', this)">🟢 Easy</button>
+    <button class="filter-btn" data-filter="hard" onclick="setHighlightFilter('hard', this)">🔴 Hard</button>
+    <button class="filter-btn" data-filter="review" onclick="setHighlightFilter('review', this)">🟡 Review</button>
+  </div>
+</div>
+
+<div class="legend-bar">
+  <span class="legend-label">Highlight key:</span>
+  <div class="legend-item easy" onclick="setHighlightFilter('easy')">
+    <div class="legend-dot" style="background:var(--green)"></div> Easy / Got it
+  </div>
+  <div class="legend-item hard" onclick="setHighlightFilter('hard')">
+    <div class="legend-dot" style="background:var(--red)"></div> Hard / Struggling
+  </div>
+  <div class="legend-item review" onclick="setHighlightFilter('review')">
+    <div class="legend-dot" style="background:var(--yellow)"></div> Needs Review
+  </div>
+  <div class="legend-item none-item">Click 🟢🔴🟡 on any topic to highlight</div>
+</div>
+
+<div class="main" id="mainContent"></div>
+
+<div class="progress-footer">
+  <div class="pf-label">Overall Progress</div>
+  <div class="pf-bar"><div class="pf-fill" id="pfFill" style="width:0%"></div></div>
+  <div class="pf-pct" id="pfPct">0%</div>
+</div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const SECTIONS = [
+  {
+    code: 'A', title: 'Proof',
+    groups: [
+      { name: 'AS Content', badge: 'as', topics: [
+        {id:'A1-01', name:'Introduction to Proof', level:'as'},
+        {id:'A1-02', name:'Introducing Consequence and Equivalence', level:'as'},
+        {id:'A1-03', name:'Consequence and Equivalence Examples', level:'as'},
+        {id:'A1-04', name:'Introducing Proof by Exhaustion', level:'as'},
+        {id:'A1-05', name:'Proof by Exhaustion Examples', level:'as'},
+        {id:'A1-06', name:'Introducing Proof by Deduction', level:'as'},
+        {id:'A1-07', name:'Proof by Deduction Examples', level:'as'},
+        {id:'A1-08', name:'Introducing Disproof by Counter Example', level:'as'},
+        {id:'A1-09', name:'Disproof by Counter Example Examples', level:'as'},
+      ]},
+      { name: 'A-Level Only — Proof by Contradiction', badge: 'alevel', topics: [
+        {id:'A1-10', name:'Introducing Proof by Contradiction', level:'alevel'},
+        {id:'A1-11', name:'Proving √2 is Irrational', level:'alevel'},
+        {id:'A1-12', name:'Proving √3 is Irrational', level:'alevel'},
+        {id:'A1-13', name:'Proving √3 is Irrational — Alternative', level:'alevel'},
+        {id:'A1-14', name:'Proving the Cube Root of 2 is Irrational', level:'alevel'},
+        {id:'A1-15', name:'Proving there are Infinitely Many Primes', level:'alevel'},
+        {id:'A1-16', name:'Proof by Contradiction Examples', level:'alevel'},
+      ]},
+    ]
+  },
+  {
+    code: 'B', title: 'Algebra and Functions',
+    groups: [
+      { name: 'Indices (AS)', badge: 'as', topics: [
+        {id:'B1-00', name:'Introducing Subsets of Real Numbers', level:'as'},
+        {id:'B1-01–10', name:'Laws of Indices (all forms, negative & rational)', level:'as'},
+      ]},
+      { name: 'Surds (AS)', badge: 'as', topics: [
+        {id:'B2-01–16', name:'Surds: simplifying, expanding, rationalising, equations', level:'as'},
+      ]},
+      { name: 'Quadratics (AS)', badge: 'as', topics: [
+        {id:'B3-01–23', name:'Quadratics: factorising, completing the square, discriminant, formula, sketching', level:'as'},
+      ]},
+      { name: 'Simultaneous Equations (AS)', badge: 'as', topics: [
+        {id:'B4-01–04', name:'Simultaneous equations: elimination, substitution, one linear one quadratic', level:'as'},
+      ]},
+      { name: 'Inequalities (AS)', badge: 'as', topics: [
+        {id:'B5-01–27', name:'Linear & quadratic inequalities, set notation, graphical representation', level:'as'},
+      ]},
+      { name: 'Polynomials', badge: 'both', topics: [
+        {id:'B6-01–14', name:'Polynomials: expanding, dividing, factor theorem', level:'as'},
+        {id:'B6-15–20', name:'Rational expressions: simplifying algebraic fractions, adding/subtracting, polynomial division', level:'alevel'},
+      ]},
+      { name: 'Graphs', badge: 'both', topics: [
+        {id:'B7-01–04', name:'Cubic, quartic, quintic sketching', level:'as'},
+        {id:'B7-05–17', name:'Modulus function: sketching, equations, inequalities', level:'alevel'},
+        {id:'B7-18–25', name:'Reciprocal graphs (y=a/x, y=a/x²), points of intersection', level:'as'},
+        {id:'B7-26–29', name:'Proportion: direct and inverse', level:'as'},
+      ]},
+      { name: 'Functions (A-Level)', badge: 'alevel', topics: [
+        {id:'B8-01–17', name:'Functions: domain, range, composite, inverse, odd/even, set/interval notation', level:'alevel'},
+      ]},
+      { name: 'Graph Transformations', badge: 'both', topics: [
+        {id:'B9-01–20', name:'Single transformations: translations, stretches, reflections', level:'as'},
+        {id:'B9-21–26', name:'Combining transformations, order, BIDMAS', level:'alevel'},
+      ]},
+      { name: 'Partial Fractions (A-Level)', badge: 'alevel', topics: [
+        {id:'B10-01–14', name:'Partial fractions: 2 and 3 terms, repeated factors, improper fractions, with binomial/integration', level:'alevel'},
+      ]},
+      { name: 'Modelling', badge: 'both', topics: [
+        {id:'B11-00–04', name:'Modelling with functions in context', level:'as'},
+      ]},
+    ]
+  },
+  {
+    code: 'C', title: 'Coordinate Geometry',
+    groups: [
+      { name: 'Straight Lines (AS)', badge: 'as', topics: [
+        {id:'C1-00–20', name:'Midpoint, distance, gradient, equations of lines, parallel/perpendicular, bisector, intersections', level:'as'},
+      ]},
+      { name: 'Circles (AS)', badge: 'as', topics: [
+        {id:'C2-01–15', name:'Circle equations, completing the square, tangents, normals, chord properties, intersections', level:'as'},
+      ]},
+      { name: 'Parametric Equations (A-Level)', badge: 'alevel', topics: [
+        {id:'C3-01–08', name:'Parametric equations: Cartesian ↔ parametric conversion, sketching', level:'alevel'},
+        {id:'C4-01–02', name:'Parametric modelling (projectiles)', level:'alevel'},
+      ]},
+    ]
+  },
+  {
+    code: 'D', title: 'Sequences and Series',
+    groups: [
+      { name: 'Binomial Expansion', badge: 'both', topics: [
+        {id:'D1-00–18', name:'Binomial expansion for positive integer n, nCr, Pascal\'s triangle, approximations', level:'as'},
+        {id:'D1-19–31', name:'Extended binomial for any rational n, range of validity', level:'alevel'},
+      ]},
+      { name: 'Sequences (A-Level)', badge: 'alevel', topics: [
+        {id:'D2-01–06', name:'nth term formulae, recurrence relations, increasing/decreasing/periodic sequences', level:'alevel'},
+      ]},
+      { name: 'Sigma Notation (A-Level)', badge: 'alevel', topics: [
+        {id:'D3-01–04', name:'Sigma notation: writing and evaluating series', level:'alevel'},
+      ]},
+      { name: 'Arithmetic Sequences & Series (AS)', badge: 'as', topics: [
+        {id:'D4-01–11', name:'nth term, sum to n terms, worded problems', level:'as'},
+      ]},
+      { name: 'Geometric Sequences & Series', badge: 'both', topics: [
+        {id:'D5-01–09', name:'nth term, sum to n, sum to infinity (|r|<1)', level:'as'},
+        {id:'D5-10–15', name:'Worded and exam-style problems', level:'as'},
+      ]},
+      { name: 'Modelling with Sequences (A-Level)', badge: 'alevel', topics: [
+        {id:'D6-01–02', name:'Sequences in context', level:'alevel'},
+      ]},
+    ]
+  },
+  {
+    code: 'E', title: 'Trigonometry',
+    groups: [
+      { name: 'Core Trig & Sine/Cosine Rule (AS)', badge: 'as', topics: [
+        {id:'E1-01–14', name:'sin/cos/tan definitions, sine rule, cosine rule, area = ½absinC', level:'as'},
+      ]},
+      { name: 'Radians (A-Level)', badge: 'alevel', topics: [
+        {id:'E1-15–20', name:'Radians, arc length, sector area', level:'alevel'},
+      ]},
+      { name: 'Small Angle Approximation (A-Level)', badge: 'alevel', topics: [
+        {id:'E2-01–06', name:'sinθ≈θ, cosθ≈1−θ²/2, tanθ≈θ', level:'alevel'},
+      ]},
+      { name: 'Trig Graphs', badge: 'both', topics: [
+        {id:'E3-01–08', name:'Graphs of sin/cos/tan in degrees, period, amplitude', level:'as'},
+        {id:'E3-09–13', name:'Exact values and graphs in radians', level:'alevel'},
+      ]},
+      { name: 'Reciprocal & Inverse Trig (A-Level)', badge: 'alevel', topics: [
+        {id:'E4-01–12', name:'cosec, sec, cot, arcsin, arccos, arctan: graphs, domains, ranges, transformations', level:'alevel'},
+      ]},
+      { name: 'Trig Identities', badge: 'both', topics: [
+        {id:'E5-01–03', name:'tanθ = sinθ/cosθ, sin²θ + cos²θ = 1', level:'as'},
+        {id:'E5-04–07', name:'sec²θ = 1+tan²θ, cosec²θ = 1+cot²θ', level:'alevel'},
+      ]},
+      { name: 'Compound & Double Angle Formulae (A-Level)', badge: 'alevel', topics: [
+        {id:'E6-01–14', name:'sin/cos/tan(A±B), double angle, rcos(θ±α)/rsin(θ±α) form', level:'alevel'},
+      ]},
+      { name: 'Trig Equations', badge: 'both', topics: [
+        {id:'E7-AS', name:'Solving trig equations in degrees', level:'as'},
+        {id:'E7-AL', name:'Solving trig equations in radians, cosec/sec/cot equations', level:'alevel'},
+      ]},
+      { name: 'Proving Trig Identities (A-Level)', badge: 'alevel', topics: [
+        {id:'E8-01–06', name:'Proving trigonometric identities', level:'alevel'},
+      ]},
+      { name: 'Trig in Context (A-Level)', badge: 'alevel', topics: [
+        {id:'E9-01–02', name:'Problems in context (vectors, kinematics, forces)', level:'alevel'},
+      ]},
+    ]
+  },
+  {
+    code: 'F', title: 'Exponentials and Logarithms',
+    groups: [
+      { name: 'Exponential Functions (AS)', badge: 'as', topics: [
+        {id:'F1-01–23', name:'Graphs of aˣ, eˣ, transformations, asymptotes', level:'as'},
+      ]},
+      { name: 'Exponential Model (AS)', badge: 'as', topics: [
+        {id:'F2-01–05', name:'Gradient of e^(kx), exponential models', level:'as'},
+      ]},
+      { name: 'Logarithms (AS)', badge: 'as', topics: [
+        {id:'F3-01–19', name:'log_a(x) as inverse of aˣ, ln(x), graphs, transformations', level:'as'},
+      ]},
+      { name: 'Laws of Logarithms (AS)', badge: 'as', topics: [
+        {id:'F4-01–13', name:'Log laws, writing as single log, using ln', level:'as'},
+      ]},
+      { name: 'Exponential & Log Equations (AS)', badge: 'as', topics: [
+        {id:'F5-01–35', name:'Solving aˣ=b, hidden quadratics, log equations, equations with e and ln', level:'as'},
+      ]},
+      { name: 'Reduction to Linear Form (AS)', badge: 'as', topics: [
+        {id:'F6-01–07', name:'y=axⁿ and y=kb^x: log graphs to estimate parameters', level:'as'},
+      ]},
+      { name: 'Exponential Growth & Decay (AS)', badge: 'as', topics: [
+        {id:'F7-01–07', name:'Growth/decay models: compound interest, radioactive decay, population', level:'as'},
+      ]},
+    ]
+  },
+  {
+    code: 'G', title: 'Differentiation',
+    groups: [
+      { name: 'Introduction to Differentiation', badge: 'both', topics: [
+        {id:'G1-01–15', name:'Gradient of tangent, differentiating polynomials, second derivatives, f\'(x)/f\'\'(x) graphs, first principles (xⁿ)', level:'as'},
+        {id:'G1-16–19', name:'Differentiating sin(x) and cos(x) from first principles', level:'alevel'},
+        {id:'G1-20–21', name:'Convex & concave curves, second derivative', level:'alevel'},
+      ]},
+      { name: 'Standard Derivatives', badge: 'both', topics: [
+        {id:'G2-01–05', name:'Differentiating xⁿ (rational n), sums/differences', level:'as'},
+        {id:'G2-06–10', name:'Differentiating e^(kx), a^(kx), sin(kx), cos(kx), tan(kx), ln(kx)', level:'alevel'},
+      ]},
+      { name: 'Applications of Differentiation', badge: 'both', topics: [
+        {id:'G3-01–28AS', name:'Gradients, tangents, normals, stationary points, increasing/decreasing, optimisation', level:'as'},
+        {id:'G3-15–24', name:'Second derivative test, convex/concave, points of inflection', level:'alevel'},
+      ]},
+      { name: 'Chain, Product & Quotient Rules (A-Level)', badge: 'alevel', topics: [
+        {id:'G4-01–21', name:'Chain rule, connected rates of change, product rule, quotient rule, cosec/sec/cot, inverse functions', level:'alevel'},
+      ]},
+      { name: 'Implicit & Parametric Differentiation (A-Level)', badge: 'alevel', topics: [
+        {id:'G5-01–10', name:'Implicit differentiation, parametric differentiation, gradients', level:'alevel'},
+      ]},
+      { name: 'Forming Differential Equations (A-Level)', badge: 'alevel', topics: [
+        {id:'G6-00–02', name:'Forming DEs in pure maths and context', level:'alevel'},
+      ]},
+    ]
+  },
+  {
+    code: 'H', title: 'Integration',
+    groups: [
+      { name: 'Fundamental Theorem (AS)', badge: 'as', topics: [
+        {id:'H1-01', name:'Fundamental Theorem of Calculus', level:'as'},
+      ]},
+      { name: 'Basic Integration', badge: 'both', topics: [
+        {id:'H2-01–05', name:'Integrating axⁿ, finding constants of integration', level:'as'},
+        {id:'H2-06–09', name:'Integrating e^(kx), 1/x, sin(kx), cos(kx)', level:'alevel'},
+      ]},
+      { name: 'Definite Integrals & Areas', badge: 'both', topics: [
+        {id:'H3-01–13', name:'Definite integrals, areas under curves, areas between curves and lines', level:'as'},
+        {id:'H3-14–20', name:'Areas between two curves, parametric integration', level:'alevel'},
+      ]},
+      { name: 'Integration as Limit of a Sum (A-Level)', badge: 'alevel', topics: [
+        {id:'H4-01–02', name:'Integration as the limit of a sum', level:'alevel'},
+      ]},
+      { name: 'Integration by Substitution & by Parts (A-Level)', badge: 'alevel', topics: [
+        {id:'H5-01–43', name:'Reverse chain rule, substitution, integration by parts (including twice), tabular method, ln(x), tan(x)', level:'alevel'},
+      ]},
+      { name: 'Partial Fractions Integration (A-Level)', badge: 'alevel', topics: [
+        {id:'H6-01–07', name:'Integrating using partial fractions (linear denominators)', level:'alevel'},
+      ]},
+      { name: 'Differential Equations (A-Level)', badge: 'alevel', topics: [
+        {id:'H7-01–05', name:'Separation of variables, general and particular solutions', level:'alevel'},
+        {id:'H8-01–03', name:'Worded DE problems, context, limitations, kinematics', level:'alevel'},
+      ]},
+    ]
+  },
+  {
+    code: 'I', title: 'Numerical Methods',
+    groups: [
+      { name: 'Locating Roots (A-Level)', badge: 'alevel', topics: [
+        {id:'I1-00–04', name:'Change of sign method, failure cases', level:'alevel'},
+      ]},
+      { name: 'Iterative Methods (A-Level)', badge: 'alevel', topics: [
+        {id:'I2-01–10', name:'x=g(x) method, cobweb/staircase diagrams, Newton-Raphson, failure cases', level:'alevel'},
+      ]},
+      { name: 'Numerical Integration (A-Level)', badge: 'alevel', topics: [
+        {id:'I3-01–05', name:'Trapezium rule, overestimate/underestimate', level:'alevel'},
+      ]},
+      { name: 'Problems in Context (A-Level)', badge: 'alevel', topics: [
+        {id:'I4-01–02', name:'Contextual numerical methods problems', level:'alevel'},
+      ]},
+    ]
+  },
+  {
+    code: 'J', title: 'Vectors',
+    groups: [
+      { name: '2D Vectors (AS)', badge: 'as', topics: [
+        {id:'J1-01–04', name:'Vector notation, finding vectors between points in 2D', level:'as'},
+        {id:'J2-01–08', name:'Magnitude, direction, component ↔ magnitude-direction form, angle between vectors', level:'as'},
+        {id:'J3-01–05', name:'Resultant vectors, parallel vectors, unit vectors, collinear points', level:'as'},
+        {id:'J4-01–02', name:'Position vectors, distance between points', level:'as'},
+        {id:'J5-01–04', name:'Vector problems in 2D, forces in equilibrium', level:'as'},
+      ]},
+      { name: '3D Vectors (A-Level)', badge: 'alevel', topics: [
+        {id:'J1-05', name:'Introducing 3D vectors', level:'alevel'},
+        {id:'J2-09–12', name:'Magnitude and angle of 3D vectors', level:'alevel'},
+        {id:'J5-05–06', name:'Kinematics and 3D vector problems', level:'alevel'},
+      ]},
+    ]
+  },
+  {
+    code: 'K', title: 'Statistical Sampling',
+    groups: [
+      { name: 'Sampling (AS)', badge: 'as', topics: [
+        {id:'K1-01–03', name:'Population vs sample, discrete/continuous, quantitative/qualitative', level:'as'},
+        {id:'K1-04–09', name:'Sampling methods: census, simple random, systematic, stratified, quota, opportunity', level:'as'},
+        {id:'K1-10–11', name:'Cluster sampling, self-selection sampling', level:'as'},
+      ]},
+    ]
+  },
+  {
+    code: 'L', title: 'Data Presentation and Interpretation',
+    groups: [
+      { name: 'Data Diagrams (AS)', badge: 'as', topics: [
+        {id:'L1-01–09', name:'Box plots, cumulative frequency, histograms, median & quartiles from histograms', level:'as'},
+      ]},
+      { name: 'Scatter Graphs & Regression (AS)', badge: 'as', topics: [
+        {id:'L2-01–07', name:'Bivariate data, correlation, PMCC, regression lines, interpolation vs extrapolation', level:'as'},
+      ]},
+      { name: 'Measures of Central Tendency & Spread (AS)', badge: 'as', topics: [
+        {id:'L3-01–18', name:'Mean, mode, median, quartiles (grouped & ungrouped), IQR, variance, standard deviation, linear coding', level:'as'},
+      ]},
+      { name: 'Outliers & Cleaning Data (AS)', badge: 'as', topics: [
+        {id:'L4-01–04', name:'Outliers, critiquing presentations, cleaning data', level:'as'},
+      ]},
+    ]
+  },
+  {
+    code: 'M', title: 'Probability',
+    groups: [
+      { name: 'Basic Probability (AS)', badge: 'as', topics: [
+        {id:'M1-01–16', name:'Mutually exclusive/independent events, Venn diagrams, tree diagrams, two-way tables', level:'as'},
+      ]},
+      { name: 'Conditional Probability (A-Level)', badge: 'alevel', topics: [
+        {id:'M2-01–07', name:'Conditional probability, P(A|B) formula, independence, Venn/tree/two-way table methods', level:'alevel'},
+      ]},
+      { name: 'Modelling with Probability (A-Level)', badge: 'alevel', topics: [
+        {id:'M3-01–02', name:'Critiquing assumptions in binomial and normal models', level:'alevel'},
+      ]},
+    ]
+  },
+  {
+    code: 'N', title: 'Statistical Distributions',
+    groups: [
+      { name: 'Discrete Random Variables & Binomial (AS)', badge: 'as', topics: [
+        {id:'N1-01–20', name:'DRVs, tabular/algebraic functions, cumulative distribution, binomial distribution, probabilities', level:'as'},
+        {id:'N1-21', name:'Binomial mean and variance', level:'alevel'},
+      ]},
+      { name: 'Normal Distribution (A-Level)', badge: 'alevel', topics: [
+        {id:'N2-01–14', name:'Normal distribution, finding probabilities, inverse normal, simultaneous equations, approximating binomial, continuity correction', level:'alevel'},
+      ]},
+      { name: 'Selecting Appropriate Distributions (A-Level)', badge: 'alevel', topics: [
+        {id:'N3-01–02', name:'Choosing between binomial/normal, approximating µ and σ', level:'alevel'},
+      ]},
+    ]
+  },
+  {
+    code: 'O', title: 'Statistical Hypothesis Testing',
+    groups: [
+      { name: 'Language & Concepts (AS)', badge: 'as', topics: [
+        {id:'O1-01–04', name:'Null/alternative hypothesis, significance level, 1-tail/2-tail, critical region, p-value', level:'as'},
+      ]},
+      { name: 'PMCC Hypothesis Testing (A-Level)', badge: 'alevel', topics: [
+        {id:'O1-05–08', name:'Hypothesis testing using PMCC', level:'alevel'},
+      ]},
+      { name: 'Binomial Hypothesis Testing (AS)', badge: 'as', topics: [
+        {id:'O2-01–11', name:'Binomial hypothesis tests: one-tail, two-tail, critical regions', level:'as'},
+      ]},
+      { name: 'Normal Distribution Hypothesis Testing (A-Level)', badge: 'alevel', topics: [
+        {id:'O3-01–11', name:'Sample means hypothesis testing: p-value, critical region, test statistic methods', level:'alevel'},
+      ]},
+    ]
+  },
+  {
+    code: 'P', title: 'Quantities and Units in Mechanics',
+    groups: [
+      { name: 'SI Units', badge: 'both', topics: [
+        {id:'P1-01', name:'Length, time, mass, derived quantities (velocity, acceleration, force, weight), unit conversions', level:'as'},
+        {id:'P1-02', name:'SI units for moments', level:'alevel'},
+      ]},
+    ]
+  },
+  {
+    code: 'Q', title: 'Kinematics',
+    groups: [
+      { name: 'Language of Kinematics (AS)', badge: 'as', topics: [
+        {id:'Q1-01–03', name:'Position, displacement, distance, velocity, speed, acceleration', level:'as'},
+      ]},
+      { name: 'Kinematics Graphs (AS)', badge: 'as', topics: [
+        {id:'Q2-01–10', name:'Displacement-time graphs, velocity-time graphs, acceleration-time graphs', level:'as'},
+      ]},
+      { name: 'SUVAT Equations', badge: 'both', topics: [
+        {id:'Q3-01–13', name:'Deriving and using constant acceleration formulae, gravity', level:'as'},
+        {id:'Q3-14–19', name:'SUVAT in 2D using vectors', level:'alevel'},
+      ]},
+      { name: 'Calculus in Kinematics', badge: 'both', topics: [
+        {id:'Q4-01–06', name:'Using calculus for motion in a straight line', level:'as'},
+        {id:'Q4-07–12', name:'Calculus for motion in 2D using vectors', level:'alevel'},
+      ]},
+      { name: 'Projectiles (A-Level)', badge: 'alevel', topics: [
+        {id:'Q5-01–21', name:'Projectile motion: from ground and from height, deriving formulae', level:'alevel'},
+      ]},
+    ]
+  },
+  {
+    code: 'R', title: 'Forces and Newton\'s Laws',
+    groups: [
+      { name: 'Newton\'s First Law & Resultant Forces (AS)', badge: 'as', topics: [
+        {id:'R1-01–10', name:'Types of force, force diagrams, resultant forces, equilibrium, Newton\'s First Law', level:'as'},
+      ]},
+      { name: 'Resolving Forces (A-Level)', badge: 'alevel', topics: [
+        {id:'R1-11–18', name:'Writing forces in component form, resolving forces examples', level:'alevel'},
+      ]},
+      { name: 'Newton\'s Second Law', badge: 'both', topics: [
+        {id:'R2-01–06', name:'F=ma in straight line, with SUVAT', level:'as'},
+        {id:'R2-07–09', name:'F=ma with SUVAT, 2D vectors', level:'alevel'},
+      ]},
+      { name: 'Weight & Gravity (AS)', badge: 'as', topics: [
+        {id:'R3-01–05', name:'Weight, tension, motion under gravity', level:'as'},
+      ]},
+      { name: 'Newton\'s Third Law & Connected Particles', badge: 'both', topics: [
+        {id:'R4-01–11', name:'Newton\'s Third Law, connected particles, pulley problems', level:'as'},
+        {id:'R4-12–26', name:'Inclined planes (smooth and rough), pulleys on inclined planes, lifts and scale pans', level:'alevel'},
+      ]},
+      { name: 'Resultant Forces & DEs (A-Level)', badge: 'alevel', topics: [
+        {id:'R5-01–06', name:'Magnitude/direction of acceleration, F=ma as differential equation', level:'alevel'},
+      ]},
+      { name: 'Friction (A-Level)', badge: 'alevel', topics: [
+        {id:'R6-01–09', name:'Coefficient of friction, rough surfaces, limiting friction, inclined planes with friction', level:'alevel'},
+      ]},
+    ]
+  },
+  {
+    code: 'S', title: 'Moments',
+    groups: [
+      { name: 'Moments (A-Level)', badge: 'alevel', topics: [
+        {id:'S1-01–29', name:'Moments, lamina, equilibrium of rigid bodies, centre of mass, tilting, non-parallel forces, ladders, pivots', level:'alevel'},
+      ]},
+    ]
+  },
+];
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let state = {}; // { [topicId]: { checked: bool, highlight: 'none'|'easy'|'hard'|'review' } }
+let activeFilter = 'all';
+let activeHlFilter = null;
+let openSections = new Set();
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem('edexcel_tracker_v2');
+    if (saved) state = JSON.parse(saved);
+  } catch(e) {}
+}
+
+function saveState() {
+  try { localStorage.setItem('edexcel_tracker_v2', JSON.stringify(state)); } catch(e) {}
+}
+
+function getTopicState(id) {
+  if (!state[id]) state[id] = { checked: false, highlight: 'none' };
+  return state[id];
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function render() {
+  const container = document.getElementById('mainContent');
+  container.innerHTML = '';
+  const query = document.getElementById('searchInput').value.toLowerCase().trim();
+
+  let totalTopics = 0, checkedTopics = 0, easyCount = 0, hardCount = 0, reviewCount = 0;
+
+  SECTIONS.forEach(section => {
+    // Count all topics
+    section.groups.forEach(g => g.topics.forEach(t => {
+      const ts = getTopicState(t.id);
+      totalTopics++;
+      if (ts.checked) checkedTopics++;
+      if (ts.highlight === 'easy') easyCount++;
+      if (ts.highlight === 'hard') hardCount++;
+      if (ts.highlight === 'review') reviewCount++;
+    }));
+
+    // Filter logic
+    const filteredGroups = section.groups.map(g => {
+      const filteredTopics = g.topics.filter(t => {
+        const ts = getTopicState(t.id);
+        if (query && !t.name.toLowerCase().includes(query) && !t.id.toLowerCase().includes(query)) return false;
+        if (activeFilter === 'as' && t.level !== 'as') return false;
+        if (activeFilter === 'alevel' && t.level !== 'alevel') return false;
+        if (activeFilter === 'checked' && !ts.checked) return false;
+        if (activeFilter === 'unchecked' && ts.checked) return false;
+        if (activeHlFilter && ts.highlight !== activeHlFilter) return false;
+        return true;
+      });
+      return { ...g, topics: filteredTopics };
+    }).filter(g => g.topics.length > 0);
+
+    if (filteredGroups.length === 0) return;
+
+    const sectionTopicCount = section.groups.reduce((a,g) => a + g.topics.length, 0);
+    const sectionChecked = section.groups.reduce((a,g) => a + g.topics.filter(t => getTopicState(t.id).checked).length, 0);
+    const pct = sectionTopicCount ? Math.round(sectionChecked / sectionTopicCount * 100) : 0;
+    const isOpen = openSections.has(section.code) || query.length > 0 || activeHlFilter;
+
+    const sectionEl = document.createElement('div');
+    sectionEl.className = 'section';
+    sectionEl.innerHTML = `
+      <div class="section-header ${isOpen ? 'open' : ''}" onclick="toggleSection('${section.code}', this)">
+        <div class="section-code">${section.code}</div>
+        <div class="section-title">${section.title}</div>
+        <div class="section-meta">
+          <div class="section-count">${sectionChecked}/${sectionTopicCount}</div>
+          <div class="section-progress"><div class="section-progress-bar" style="width:${pct}%"></div></div>
+        </div>
+        <div class="chevron ${isOpen ? 'open' : ''}">▼</div>
+      </div>
+      ${isOpen ? `<div class="section-body" id="body-${section.code}">${renderGroups(filteredGroups)}</div>` : ''}
+    `;
+    container.appendChild(sectionEl);
+  });
+
+  if (container.innerHTML === '') {
+    container.innerHTML = `<div class="no-results"><div class="icon">🔍</div><h3>No topics found</h3><p>Try a different search or filter.</p></div>`;
+  }
+
+  // Update header stats
+  document.getElementById('headerStats').innerHTML = `
+    <div class="stat-pill blue"><span>${checkedTopics}</span>/${totalTopics} Done</div>
+    <div class="stat-pill green"><span>${easyCount}</span> Easy</div>
+    <div class="stat-pill red"><span>${hardCount}</span> Hard</div>
+    <div class="stat-pill yellow"><span>${reviewCount}</span> Review</div>
+  `;
+
+  // Footer progress
+  const pctTotal = totalTopics ? Math.round(checkedTopics / totalTopics * 100) : 0;
+  document.getElementById('pfFill').style.width = pctTotal + '%';
+  document.getElementById('pfPct').textContent = pctTotal + '%';
+}
+
+function renderGroups(groups) {
+  return groups.map(g => `
+    <div class="subsection-header">
+      <span class="subsection-badge ${g.badge === 'as' ? 'as' : g.badge === 'alevel' ? 'alevel' : ''}">${g.badge === 'as' ? 'AS' : g.badge === 'alevel' ? 'A-Level' : 'AS + A-Level'}</span>
+      ${g.name}
+    </div>
+    ${g.topics.map(t => renderTopic(t)).join('')}
+  `).join('');
+}
+
+function renderTopic(t) {
+  const ts = getTopicState(t.id);
+  const hlClass = ts.highlight !== 'none' ? `hl-${ts.highlight}` : '';
+  const checkedClass = ts.checked ? 'checked' : '';
+  return `
+    <div class="topic-row ${hlClass}" id="row-${t.id}">
+      <input type="checkbox" class="topic-check" ${ts.checked ? 'checked' : ''}
+        onchange="toggleCheck('${t.id}', this.checked)">
+      <span class="topic-code">${t.id}</span>
+      <span class="topic-name ${checkedClass}">${t.name}</span>
+      <span class="topic-tag ${t.level}">${t.level === 'as' ? '★ AS' : '■ A2'}</span>
+      <button class="hl-btn ${ts.highlight === 'easy' ? 'easy' : ''}" onclick="setHighlight('${t.id}', 'easy')" title="Mark as Easy">🟢</button>
+      <button class="hl-btn ${ts.highlight === 'review' ? 'review' : ''}" onclick="setHighlight('${t.id}', 'review')" title="Mark as Needs Review">🟡</button>
+      <button class="hl-btn ${ts.highlight === 'hard' ? 'hard' : ''}" onclick="setHighlight('${t.id}', 'hard')" title="Mark as Hard">🔴</button>
+    </div>
+  `;
+}
+
+// ── ACTIONS ───────────────────────────────────────────────────────────────────
+function toggleCheck(id, checked) {
+  getTopicState(id).checked = checked;
+  saveState();
+  const row = document.getElementById('row-' + id);
+  if (row) {
+    const nameEl = row.querySelector('.topic-name');
+    if (nameEl) nameEl.classList.toggle('checked', checked);
+  }
+  updateStats();
+}
+
+function setHighlight(id, type) {
+  const ts = getTopicState(id);
+  ts.highlight = ts.highlight === type ? 'none' : type;
+  saveState();
+  const row = document.getElementById('row-' + id);
+  if (row) {
+    row.className = 'topic-row' + (ts.highlight !== 'none' ? ` hl-${ts.highlight}` : '');
+    row.querySelectorAll('.hl-btn').forEach(btn => btn.className = 'hl-btn');
+    if (ts.highlight !== 'none') {
+      const icons = ['easy','review','hard'];
+      const btns = row.querySelectorAll('.hl-btn');
+      const idx = icons.indexOf(ts.highlight);
+      if (btns[idx]) btns[idx].className = `hl-btn ${ts.highlight}`;
+    }
+  }
+  updateStats();
+}
+
+function updateStats() {
+  let totalTopics = 0, checkedTopics = 0, easyCount = 0, hardCount = 0, reviewCount = 0;
+  SECTIONS.forEach(s => s.groups.forEach(g => g.topics.forEach(t => {
+    const ts = getTopicState(t.id);
+    totalTopics++;
+    if (ts.checked) checkedTopics++;
+    if (ts.highlight === 'easy') easyCount++;
+    if (ts.highlight === 'hard') hardCount++;
+    if (ts.highlight === 'review') reviewCount++;
+  })));
+  document.getElementById('headerStats').innerHTML = `
+    <div class="stat-pill blue"><span>${checkedTopics}</span>/${totalTopics} Done</div>
+    <div class="stat-pill green"><span>${easyCount}</span> Easy</div>
+    <div class="stat-pill red"><span>${hardCount}</span> Hard</div>
+    <div class="stat-pill yellow"><span>${reviewCount}</span> Review</div>
+  `;
+  const pct = totalTopics ? Math.round(checkedTopics / totalTopics * 100) : 0;
+  document.getElementById('pfFill').style.width = pct + '%';
+  document.getElementById('pfPct').textContent = pct + '%';
+}
+
+function toggleSection(code, headerEl) {
+  if (openSections.has(code)) {
+    openSections.delete(code);
+    headerEl.classList.remove('open');
+    headerEl.querySelector('.chevron').classList.remove('open');
+    const body = document.getElementById('body-' + code);
+    if (body) body.remove();
+  } else {
+    openSections.add(code);
+    headerEl.classList.add('open');
+    headerEl.querySelector('.chevron').classList.add('open');
+    const sectionData = SECTIONS.find(s => s.code === code);
+    const body = document.createElement('div');
+    body.className = 'section-body';
+    body.id = 'body-' + code;
+    body.innerHTML = renderGroups(sectionData.groups);
+    headerEl.parentElement.appendChild(body);
+  }
+}
+
+function setFilter(f, btn) {
+  activeFilter = f;
+  activeHlFilter = null;
+  document.querySelectorAll('#filterGroup .filter-btn').forEach(b => b.className = 'filter-btn');
+  if (btn) btn.className = 'filter-btn active';
+  render();
+}
+
+function setHighlightFilter(type, btn) {
+  if (activeHlFilter === type) {
+    activeHlFilter = null;
+    if (btn) btn.className = 'filter-btn';
+  } else {
+    activeHlFilter = type;
+    document.querySelectorAll('.filter-btn').forEach(b => {
+      if (['easy','hard','review'].some(x => b.dataset.filter === x)) b.className = 'filter-btn';
+    });
+    if (btn) btn.className = `filter-btn active-${type}`;
+  }
+  render();
+}
+
+function applyFilters() { render(); }
+
+function expandAll() {
+  SECTIONS.forEach(s => openSections.add(s.code));
+  render();
+}
+
+function resetAll() {
+  if (!confirm('Reset all checkboxes and highlights? This cannot be undone.')) return;
+  state = {};
+  saveState();
+  render();
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+loadState();
+render();
+</script>
+</body>
+</html>
